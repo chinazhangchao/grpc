@@ -29,6 +29,7 @@ CC_FILES=[
     'grpc_root/src/core/ext/upb-gen/google/protobuf/empty.upb_minitable.c',
     'grpc_root/src/core/ext/upb-gen/google/protobuf/timestamp.upb_minitable.c',
     'grpc_root/src/core/ext/upb-gen/src/proto/grpc/channelz/v2/channelz.upb_minitable.c',
+    'grpc_root/src/core/ext/upb-gen/src/proto/grpc/channelz/v2/promise.upb_minitable.c',
     'grpc_root/src/core/ext/upb-gen/src/proto/grpc/channelz/v2/property_list.upb_minitable.c',
     'grpc_root/src/core/ext/upb-gen/src/proto/grpc/channelz/v2/service.upb_minitable.c',
     'grpc_root/src/core/lib/address_utils/parse_address.cc',
@@ -46,6 +47,7 @@ CC_FILES=[
     'grpc_root/src/core/lib/iomgr/iomgr_internal.cc',
     'grpc_root/src/core/lib/iomgr/sockaddr_utils_posix.cc',
     'grpc_root/src/core/lib/iomgr/socket_utils_windows.cc',
+    'grpc_root/src/core/lib/promise/activity.cc',
     'grpc_root/src/core/lib/slice/percent_encoding.cc',
     'grpc_root/src/core/lib/slice/slice.cc',
     'grpc_root/src/core/lib/slice/slice_buffer.cc',
@@ -60,6 +62,7 @@ CC_FILES=[
     'grpc_root/src/core/util/alloc.cc',
     'grpc_root/src/core/util/backoff.cc',
     'grpc_root/src/core/util/crash.cc',
+    'grpc_root/src/core/util/dump_args.cc',
     'grpc_root/src/core/util/examine_stack.cc',
     'grpc_root/src/core/util/fork.cc',
     'grpc_root/src/core/util/glob.cc',
@@ -308,9 +311,9 @@ CC_FILES=[
 ]
 
 CC_INCLUDES=[
-    'third_party/abseil-cpp',
-    'grpc_root/src/core/ext/upb-gen',
-    'grpc_root/src/core/ext/upbdefs-gen',
-    'third_party/protobuf',
-    'third_party/protobuf/third_party/utf8_range'
+    'third_party\\abseil-cpp',
+    'grpc_root\\src\\core\\ext\\upb-gen',
+    'grpc_root\\src\\core\\ext\\upbdefs-gen',
+    'third_party\\protobuf',
+    'third_party\\protobuf\\third_party\\utf8_range'
 ]
