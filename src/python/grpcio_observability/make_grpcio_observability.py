@@ -128,19 +128,42 @@ BAZEL_DEPS = os.path.join(
     GRPC_ROOT, "tools", "distrib", "python", "bazel_deps.sh"
 )
 
+# Prefer running the existing shell wrapper through bash on Windows.
+BAZEL_QUERY_FALLBACK_CMD = ["bazel", "query"]
+
 # the bazel target to scrape to get list of sources for the build
 BAZEL_DEPS_QUERIES = [
     "//src/core:experiments",
     "//src/core:slice",
     "//src/core:ref_counted_string",
     "//src/core:instrument",
+    "//src/core:activity",
+    "//:google_rpc_status_upb",
+    "//:google_rpc_status_upbdefs",
+    "//:channelz_upbdefs",
+    "//:channelz_service_upbdefs",
+    "//:channelz_property_list_upbdefs",
+    "//:promise_upb",
+    "//:promise_upbdefs",
 ]
+
+
+def _source_file_query(query):
+    return "kind('source file', deps(%s))" % query
 
 
 def _bazel_query(query):
     """Runs 'bazel query' to collect source file info."""
-    print('Running "bazel query %s"' % query)
-    output = subprocess.check_output([BAZEL_DEPS, query])
+    effective_query = _source_file_query(query)
+    print('Running "bazel query %s"' % effective_query)
+    if os.name == "nt":
+        # On Windows, invoking a .sh wrapper through bash can fail when bash is
+        # provided by WSL and receives a Windows path. Use bazel directly.
+        output = subprocess.check_output(
+            BAZEL_QUERY_FALLBACK_CMD + [effective_query]
+        )
+    else:
+        output = subprocess.check_output([BAZEL_DEPS, effective_query])
     return output.decode("ascii").splitlines()
 
 
