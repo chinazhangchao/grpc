@@ -164,7 +164,19 @@ def protobuf_submodule_commit_hash():
 def _bazel_query(query):
     """Runs 'bazel query' to collect source file info."""
     print('Running "bazel query %s"' % query)
-    output = subprocess.check_output([BAZEL_DEPS, query])
+    cwd = os.getcwd()
+    try:
+        os.chdir(GRPC_ROOT)
+        # On Windows, use bazel directly from PATH
+        # On Unix, use tools/bazel wrapper to ensure correct version
+        if sys.platform == "win32":
+            cmd = ["bazel", "query", "deps('%s')" % query]
+        else:
+            bazel_wrapper = os.path.join(GRPC_ROOT, "tools", "bazel")
+            cmd = [bazel_wrapper, "query", "deps('%s')" % query]
+        output = subprocess.check_output(cmd)
+    finally:
+        os.chdir(cwd)
     return output.decode("ascii").splitlines()
 
 
