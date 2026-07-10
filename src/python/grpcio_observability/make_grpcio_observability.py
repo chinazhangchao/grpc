@@ -209,7 +209,11 @@ def _removeprefix(input: str, prefix: str, /) -> str:
 
 def _bazel_proto_name_to_file_paths(proto_target: str):
     """Transform bazel proto target to local generated source file names."""
-    for bazel_prefix, upb_gen_path, upbdefs_gen_path in BAZEL_PROTO_REFERENCE_LINK:
+    for (
+        bazel_prefix,
+        upb_gen_path,
+        upbdefs_gen_path,
+    ) in BAZEL_PROTO_REFERENCE_LINK:
         if proto_target.startswith(bazel_prefix):
             normalized_name = (
                 _removeprefix(proto_target, bazel_prefix)
