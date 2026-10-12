@@ -160,9 +160,7 @@ def _bazel_query(query):
     """Runs 'bazel query' to collect source file info."""
     print('Running "bazel query %s"' % query)
     if sys.platform == "win32":
-        bazel = (
-            shutil.which("bazel") or shutil.which("bazelisk") or "bazel"
-        )
+        bazel = shutil.which("bazel") or shutil.which("bazelisk") or "bazel"
     else:
         bazel = os.path.join(GRPC_ROOT, "tools", "bazel")
     output = subprocess.check_output(
